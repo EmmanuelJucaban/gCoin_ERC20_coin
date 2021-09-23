@@ -19,7 +19,7 @@ contract("Test token creation", async (accounts) => {
   });
 
 
-  const [deployerAccount, receiverAccount, senderACcount] = accounts;
+  const [deployerAccount, receiverAccount, ] = accounts;
   it('should create the tokens in my account', async () => {
     expect(instance.balanceOf(deployerAccount)).to.eventually.be.a.bignumber.equal(totalSupply);
   });
@@ -27,6 +27,7 @@ contract("Test token creation", async (accounts) => {
   it('should not allow to send more tokens than available in total', async () => {
     const deployerBalance = await instance.balanceOf(deployerAccount);
     expect(instance.transfer(receiverAccount, new BN(deployerBalance + 1))).to.eventually.be.rejected;
+    expect(instance.balanceOf(deployerAccount)).to.eventually.be.a.bignumber.equal(deployerBalance);
   });
 
   it('should allow tokens to be sent between accounts', async () => {
